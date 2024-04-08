@@ -24,7 +24,9 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Query is required']
     },
-    // file: String, 
+    file: {
+        type: String,
+    }, 
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', 

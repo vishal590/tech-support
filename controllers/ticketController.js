@@ -8,11 +8,15 @@ export const ticketController = async(req, res) => {
     try{
         // const {query, file, createdBy} = req.body;
         const {query, createdBy, userName} = req.body;
-        // const {query} = req.body;
+        const file = req.file;
+
+        const filePath = file ? file.path : null;
+
+        console.log(`filePath : ${filePath} , ${query} , ${createdBy}`.bgBlue);
 
         const newTicket = new ticketModel({
             query,
-            // file,
+            file: filePath,
             createdBy, 
             userName,
             status: 'incomplete'

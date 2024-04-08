@@ -1,9 +1,10 @@
 import express from "express";
 import { allTicketController, assignTechSupportController, getAllTicketController, getTicketController, sendMessageController, ticketController, updateStatusController } from "../controllers/ticketController.js";
+import upload from "../config/multerConfig.js";
 
 const router = express.Router();
 
-router.post('/create-tickets', ticketController);
+router.post('/create-tickets', upload.single('file'),ticketController);
 router.get('/get-all-tickets/:createdBy', getAllTicketController);
 router.get('/get-tickets/:id', getTicketController);
 router.put('/update-status/:id', updateStatusController);

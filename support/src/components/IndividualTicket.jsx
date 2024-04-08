@@ -69,13 +69,52 @@ const IndividualTicket = () => {
     }
   };
 
+  // const renderFile = (file) => {
+  //   if(file.endsWith('.pdf')){
+  //     return <PDFViewer file={file} />
+  //   }else if (file.endsWith(".docx") || file.endsWith(".doc")) {
+  //     return <DocumentViewer file={file} />;
+  //   } else if (file.match(/\.(jpg|png)$/)) {
+  //     return (
+  //       <div className="w-1/4">
+  //         <img
+  //           src={`http://localhost:8080/${ticket?.file?.replace(/\\/g, "/")}`}
+  //           alt="Images"
+  //           className="w-full"
+  //         />
+  //       </div>
+  //     );
+  //   } else {
+  //     return <div>File type not supported</div>;
+  //   }
+  // }
+
+  const renderFile = (file) => {
+    if (!file) {
+      return <div>File not found</div>;
+    }else if (file.match(/\.(jpg|png)$/)) {
+      return (
+        <div className="w-1/4">
+          <img
+            src={`http://localhost:8080/${file.replace(/\\/g, "/")}`}
+            alt="Images"
+            className="w-full"
+          />
+        </div>
+      );
+    } else {
+      return <div>File type not supported</div>;
+    }
+  }
+  
+
   return (
     <div className="w-full flex justify-center">
       <div className="w-5/6 mx-4">
         <h2 className="text-xl font-bold mb-4 text-blue-500">Ticket Details</h2>
         <div className="w-full flex justify-between">
           <div className="w-1/2 mr-2">
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-4">
               <label htmlFor="query" className="font-semibold mb-2">
                 Query:
               </label>
@@ -87,6 +126,13 @@ const IndividualTicket = () => {
                 disabled={true}
               />
             </div>
+            <div className="flex flex-col mb-4">
+              <label htmlFor="file" className="font-semibold mb-2">
+                Attached File:
+              </label>
+              {renderFile(ticket?.file)}
+            </div>
+
           </div>
           <div className="w-1/2 flex flex-col mr-2">
             {role !== "user" && (
