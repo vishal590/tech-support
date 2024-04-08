@@ -12,7 +12,7 @@
     npm install
     ```
 
-3. Navigate to the frontend directory (`support`).
+3. Navigate to the frontend (support folder) directory (`support`).
     ```bash
     cd support
     ```
@@ -26,7 +26,7 @@
 
 - To start the server, run the following command in the root directory:
     ```bash
-    npm start
+    npm start or npm run dev
     ```
 
 - To run the frontend development server, use the following command in the `support` directory:
