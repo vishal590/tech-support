@@ -53,6 +53,7 @@ const ChangeTechSupport = () => {
         }
       );
       console.log("assign tech support:", res.data.assignTechSupport);
+      
       const updatedTickets = tickets.map((ticket) => {
         if (ticket._id === ticketId) {
           return {
