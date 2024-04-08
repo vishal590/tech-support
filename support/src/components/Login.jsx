@@ -22,7 +22,6 @@ const Login = () => {
 
       if(res?.data?.success) {
         // console.log('try login successfull:',res.data.message)
-        // localStorage.setItem(`token: ${res.data.token}`)
         const user = res?.data?.user
         console.log('user login  -----:', user)
         toast.success(res.data.message);

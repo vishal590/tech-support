@@ -16,8 +16,6 @@ export const ticketSlice = createSlice({
             }
         },
         setMessages: (state, action) => {
-            localStorage.setItem('messages', JSON.stringify(action.payload));
-
             return {
               ...state,
               messages: action.payload,

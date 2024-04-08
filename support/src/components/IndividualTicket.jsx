@@ -3,32 +3,33 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import {addMessages, setMessages} from '../app/features/ticketSlice'
+import { addMessages, setMessages } from "../app/features/ticketSlice";
 
 const IndividualTicket = () => {
   const params = useParams();
   const paramsId = params?.id;
-//   console.log("paramsId:", paramsId);
+  //   console.log("paramsId:", paramsId);
   const [ticket, setTicket] = useState([]);
-  const {role, createdBy, name} = useSelector(state => state?.auth?.user)
-    const [reply, setReply] = useState('');
-    // const [messages, setMessages] = useState([]);
-    const messages = useSelector(state => state?.tickets?.messages);
-    const dispatch = useDispatch();
+  const { role, createdBy, name } = useSelector((state) => state?.auth?.user);
+  const users = useSelector((state) => state?.auth?.user);
+  const [reply, setReply] = useState("");
+  // const [messages, setMessages] = useState([]);
+  const messages = useSelector((state) => state?.tickets?.messages);
+  const dispatch = useDispatch();
 
-
+  console.log(messages, "messagesss -");
   const fetchTicket = async () => {
     try {
       const res = await axios.get(`/api/v1/tickets/get-tickets/${paramsId}`);
-
+      console.log(res.data.ticket, "res.data.ticket");
       setTicket(res.data.ticket);
-    //   setMessages(res?.data?.messagesArray || []);
-        dispatch(setMessages(res?.data?.messagesArray || []))
+      //   setMessages(res?.data?.messagesArray || []);
+      console.log(res?.data?.ticket, 'messages in array')
+      dispatch(setMessages(res.data?.ticket?.messages || []));
     } catch (error) {
       console.log("error in dashboard:", error);
     }
   };
-
   useEffect(() => {
     fetchTicket();
   }, []);
@@ -47,24 +48,24 @@ const IndividualTicket = () => {
     }
   };
 
-  const handleSend = async() => {
-    try{
-        const res = await axios.post(`/api/v1/tickets/send-message/${paramsId}`,{
-            message: reply,
-            sender: createdBy,
-            userName: name,
-        })
-        toast.success(res?.data?.message);
-        // const message = res?.data?.messagesArray
-        // setMessages(prevMessages => [...prevMessages, message?.[message?.length - 1]])
+  const handleSend = async () => {
+    try {
+      const res = await axios.post(`/api/v1/tickets/send-message/${paramsId}`, {
+        message: reply,
+        sender: createdBy,
+        userName: name,
+      });
+      toast.success(res?.data?.message);
+      // const message = res?.data?.messagesArray
+      // setMessages(prevMessages => [...prevMessages, message?.[message?.length - 1]])
 
-        dispatch(addMessages(res?.data?.messagesArray))
+      dispatch(addMessages(res?.data?.messagesArray));
 
-        // setMessages([...messages, message])
-        console.log('messesage in handleSend:', res?.data?.messagesArray)
-        setReply('');
-    }catch(error){
-        console.log('error in sedning message:', error);
+      // setMessages([...messages, message])
+      console.log("messesage in handleSend:", res?.data?.messagesArray);
+      setReply("");
+    } catch (error) {
+      console.log("error in sedning message:", error);
     }
   };
 
@@ -88,7 +89,7 @@ const IndividualTicket = () => {
             </div>
           </div>
           <div className="w-1/2 flex flex-col mr-2">
-            {role !== 'user' && (
+            {role !== "user" && (
               <div className="flex flex-col mb-4">
                 <label htmlFor="techSupport" className="font-semibold mb-2">
                   Tech Support:
@@ -97,12 +98,16 @@ const IndividualTicket = () => {
                   id="techSupport"
                   name="techSupport"
                   className="w-full h-40 border border-gray-300 rounded-md p-2  text-blue-900 mb-2"
-                  disabled={role === 'tech_support'}
-                  value={messages.map(message => `${message.userName}: ${message.content}\n`).join('')}
+                  disabled={role === "tech_support"}
+                  value={messages
+                    .map(
+                      (message) => `${message.userName}: ${message.content}\n`
+                    )
+                    .join("")}
                 />
               </div>
             )}
-            {role === 'user' && (
+            {role === "user" && (
               <div className="flex flex-col mb-4">
                 <label htmlFor="user" className="font-semibold mb-2">
                   User:
@@ -111,8 +116,9 @@ const IndividualTicket = () => {
                   id="user"
                   name="user"
                   className="w-full h-40 border border-gray-300 rounded-md p-2  text-blue-900 mb-2"
-                  disabled={role === 'user'}
+                  disabled={role === "user"}
                   value={messages.map(message => `${message.userName}: ${message.content}\n`).join('')}
+                  // value={user?.messages.map(message => `${message.content}\n`).join('')}
                 />
               </div>
             )}
@@ -159,10 +165,6 @@ const IndividualTicket = () => {
       </div>
     </div>
   );
-  
-  
-  
-
 };
 
 export default IndividualTicket;

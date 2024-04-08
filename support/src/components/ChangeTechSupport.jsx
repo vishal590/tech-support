@@ -11,7 +11,7 @@ const ChangeTechSupport = () => {
     fetchData();
     fetchTechSupportUsers();
     console.log("fsdfaf");
-  }, [techSupportUsers?.name]);
+  }, []);
 
   const fetchData = async () => {
     try {
