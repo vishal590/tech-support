@@ -107,6 +107,12 @@ const IndividualTicket = () => {
     }
   }
   
+  const handleKeyPress = (e) => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      handleSend();
+    }
+  }
 
   return (
     <div className="w-full flex justify-center">
@@ -164,7 +170,7 @@ const IndividualTicket = () => {
                   className="w-full h-40 border border-gray-300 rounded-md p-2  text-blue-900 mb-2"
                   disabled={role === "user"}
                   value={messages.map(message => `${message.userName}: ${message.content}\n`).join('')}
-                  // value={user?.messages.map(message => `${message.content}\n`).join('')}
+                  onChange={handleKeyPress}
                 />
               </div>
             )}
@@ -178,6 +184,7 @@ const IndividualTicket = () => {
                 className="w-full h-40 border border-gray-300 rounded-md p-2"
                 value={reply}
                 onChange={(e) => setReply(e.target.value)}
+                onKeyDown={handleKeyPress}
               />
             </div>
             <div className="flex justify-between mt-4">
